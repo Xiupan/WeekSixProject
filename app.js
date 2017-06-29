@@ -1,3 +1,6 @@
+//DB is called gabbleDB
+//Table is called Gabs
+//Gabs table has columns: id, user, text, publishedAt, likes, createdAt, updatedAt
 const express = require("express");
 const app = express();
 const mustache = require("mustache-express");
@@ -14,7 +17,19 @@ app.listen(3000, function(){
   console.log("Gabble is running!")
 })
 
+// generates 13 fake gabs
+// for (var i = 0; i < 13; i++) {
+//   const gab = models.Gabs.build({
+//     user: faker.internet.userName(),
+//     text: faker.hacker.phrase(),
+//     publishedAt: faker.date.past(),
+//     likes: [faker.internet.userName(), faker.internet.userName(), faker.internet.userName()]
+//   })
+//   gab.save()
+// }
+
 app.get('/', function(request, response){
+  console.log('Generated username: ' + faker.internet.userName());
   response.render('index');
 });
 
