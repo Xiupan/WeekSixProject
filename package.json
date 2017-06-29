@@ -4,7 +4,8 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "nodemon -e js,mustache ./app.js"
   },
   "author": "",
   "license": "ISC",
@@ -13,7 +14,9 @@
     "express": "^4.15.3",
     "express-session": "^1.15.3",
     "express-validator": "^3.2.0",
+    "faker": "^4.1.0",
     "mustache-express": "^1.2.5",
+    "pg": "^6.4.0",
     "sequelize": "^4.2.1"
   }
 }
