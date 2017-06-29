@@ -13,3 +13,7 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.listen(3000, function(){
   console.log("Gabble is running!")
 })
+
+app.get('/', function(request, response){
+  response.render('index');
+});
