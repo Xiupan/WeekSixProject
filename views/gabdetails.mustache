@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Gabble</title>
+    <link rel="stylesheet" href="/css/master.css">
+  </head>
+  <body>
+    <nav>
+      <a href="/">
+        <h3>Gabble</h3>
+      </a>
+      <a href="/newGab">
+        <h3>Create a new gab</h3>
+      </a>
+      <a href="/login">
+        <h3>Logged in as {{user}}</h3>
+      </a>
+      <a href="/logout">
+        <h3>Log out</h3>
+      </a>
+    </nav>
+    <div class="gab-details-content-wrapper">
+      <div class="gab-container">
+        <h2>{{user}}: </h2>
+        <p>{{text}}</p>
+        <p>{{publishedAt}}</p>
+      </div>
+      <div class="likes-container">
+        <h1>Liked by</h1>
+        <ul>
+          {{#likes}}
+          <li>{{user}}</li>
+          {{/likes}}
+        </ul>
+      </div>
+    </div>
+  </body>
+</html>

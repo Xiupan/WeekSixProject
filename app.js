@@ -17,3 +17,19 @@ app.listen(3000, function(){
 app.get('/', function(request, response){
   response.render('index');
 });
+
+app.get('/signup', function(request, response){
+  response.render('signup');
+});
+
+app.get('/login', function(request, response){
+  response.render('login');
+});
+
+app.get('/newgab', function(request, response){
+  response.render('newgab');
+});
+
+app.get('/gabdetails', function(request, response){
+  response.render('gabdetails');
+});
