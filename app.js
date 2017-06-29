@@ -29,7 +29,7 @@ app.listen(3000, function(){
 // }
 
 app.get('/', function(request, response){
-  models.Gabs.findAll().then(function(gabs){
+  models.Gabs.findAll().then(function(gabs){ // displays all gabs on the home page. May want to change this to findOne to restrict how many gabs it returns, instead of all.
     response.render('index', {
       gabs: gabs
     });
