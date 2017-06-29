@@ -51,3 +51,17 @@ app.get('/newgab', function(request, response){
 app.get('/gabdetails', function(request, response){
   response.render('gabdetails');
 });
+
+app.post('/signup', function(request, response){
+  var username = request.body.username;
+  var password = request.body.password;
+  const newUser = models.Users.build({ // inserts a signed up new user into the Users Table
+    username: username,
+    password: password
+  })
+  newUser.save().then(function(){
+    response.redirect('/');
+    console.log('newUser: ' + newUser);
+    console.log('models.Users: ' + models.Users);
+  })
+})
