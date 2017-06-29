@@ -29,8 +29,11 @@ app.listen(3000, function(){
 // }
 
 app.get('/', function(request, response){
-  console.log('Generated username: ' + faker.internet.userName());
-  response.render('index');
+  models.Gabs.findAll().then(function(gabs){
+    response.render('index', {
+      gabs: gabs
+    });
+  })
 });
 
 app.get('/signup', function(request, response){
