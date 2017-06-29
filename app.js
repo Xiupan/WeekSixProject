@@ -65,3 +65,28 @@ app.post('/signup', function(request, response){
     console.log('models.Users: ' + models.Users);
   })
 })
+
+app.post('/login', function(request, response){
+  var loginUsername = request.body.username;
+  var loginPassword = request.body.password;
+  var loginError = 'Incorrect username or password.'
+  models.Users.findOne({
+    where: {
+      username: loginUsername,
+      password: loginPassword
+    }
+  }).then(function(usersFindOne){
+    if (usersFindOne === null) { // displays login error message if login or password do not match Users Table
+      response.render('login', {
+        error: loginError
+      });
+    } else if (usersFindOne != null){ // right now it just redirects when a login is successful, but it may need to start a session? Maybe? *shrugs*
+      response.redirect('/');
+    }
+  })
+})
+
+// app.post('newgab', function(request, response){ // need to get req.session.user using express-session somehow and then set that equal to 'user' in the Gabs Table
+//   var newGabField = request.body.newGabField;
+//
+// })
