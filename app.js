@@ -1,6 +1,14 @@
 //DB is called gabbleDB
 //Table is called Gabs
 //Gabs table has columns: id, user, text, publishedAt, likes, createdAt, updatedAt
+
+// sort gabs on index by publishedAt time
+// create a gab page inserts into the gab database. Must also push session user to user column in gab table.
+// limit amount of gabs that load on index. Also have link at the bottom that will load more on click.
+// load express-session to enable user sessions.
+// when like button on index is clicked, take username from session and push it to gab table, like column.
+// delete button appears for gabs that were created by the session's user
+// when clicking on a specific gab, goes to a separate page that displays the gab and also the array of who liked the gab.
 const express = require("express");
 const app = express();
 const mustache = require("mustache-express");
@@ -48,8 +56,20 @@ app.get('/newgab', function(request, response){
   response.render('newgab');
 });
 
-app.get('/gabdetails', function(request, response){
-  response.render('gabdetails');
+app.get('/gabdetails/:id', function(request, response){ // req.params.id to pull id of the gab to know which one to display.
+  var gabDetailsId = request.params.id; // sets the ID in the URL to a variable
+  models.Gabs.findOne({
+    where: {
+      id: gabDetailsId
+    }
+  }).then(function(matchingGab){
+    response.render('gabdetails', {
+      user: matchingGab.user,
+      text: matchingGab.text,
+      publishedAt: matchingGab.publishedAt,
+      likes: matchingGab.likes
+    })
+  })
 });
 
 app.post('/signup', function(request, response){
