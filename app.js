@@ -5,16 +5,17 @@
 // sort gabs on index by publishedAt time
 // create a gab page inserts into the gab database. Must also push session user to user column in gab table.
 // limit amount of gabs that load on index. Also have link at the bottom that will load more on click.
-// load express-session to enable user sessions.
 // when like button on index is clicked, take username from session and push it to gab table, like column.
 // delete button appears for gabs that were created by the session's user
-// when clicking on a specific gab, goes to a separate page that displays the gab and also the array of who liked the gab.
+// need to format publishedAt time properly. Using moment()? Or format in the DB itself?
 const express = require("express");
 const app = express();
 const mustache = require("mustache-express");
 const models = require("./models");
 const faker = require("faker");
 const bodyParser = require("body-parser");
+const expressSession = require("express-session");
+const moment = require("moment");
 
 app.engine('mustache', mustache());
 app.set('view engine', 'mustache');
@@ -37,7 +38,11 @@ app.listen(3000, function(){
 // }
 
 app.get('/', function(request, response){
-  models.Gabs.findAll().then(function(gabs){ // displays all gabs on the home page. May want to change this to findOne to restrict how many gabs it returns, instead of all.
+  models.Gabs.findAll({
+    order: [
+      ['publishedAt', 'DESC']
+    ]
+  }).then(function(gabs){ // displays all gabs on the home page. May want to change this to findOne to restrict how many gabs it returns, instead of all.
     response.render('index', {
       gabs: gabs
     });
@@ -56,9 +61,9 @@ app.get('/newgab', function(request, response){
   response.render('newgab');
 });
 
-app.get('/gabdetails/:id', function(request, response){ // req.params.id to pull id of the gab to know which one to display.
-  var gabDetailsId = request.params.id; // sets the ID in the URL to a variable
-  models.Gabs.findOne({
+app.get('/gabdetails/:id', function(request, response){
+  var gabDetailsId = request.params.id;
+  models.Gabs.findOne({ // displays the gab clicked on by ID
     where: {
       id: gabDetailsId
     }
