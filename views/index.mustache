@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>Gabble</title>
     <link rel="stylesheet" href="/css/master.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js" charset="utf-8"></script>
   </head>
   <body>
     <nav>
@@ -25,7 +26,7 @@
       <div class="gab-container">
         <h2>{{user}}: </h2>
         <p>{{text}}</p>
-        <p>{{publishedAt}}</p>
+        <p class="publishedAt">{{publishedAt}}</p>
         <p>{{likes}} likes</p>
         <form class="like-button" action="/" method="post">
           <input type="submit" name="likeButton" value="Like">
@@ -33,5 +34,6 @@
       </div>
       {{/gabs}}
     </div>
+    <script src="/js/client.js" charset="utf-8"></script>
   </body>
 </html>

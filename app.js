@@ -7,7 +7,7 @@
 // limit amount of gabs that load on index. Also have link at the bottom that will load more on click.
 // when like button on index is clicked, take username from session and push it to gab table, like column.
 // delete button appears for gabs that were created by the session's user
-// need to format publishedAt time properly. Using moment()? Or format in the DB itself?
+// need to format publishedAt time properly. Using moment(), do it client side! In a separate js file that runs client-side.
 const express = require("express");
 const app = express();
 const mustache = require("mustache-express");
