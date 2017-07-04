@@ -30,8 +30,10 @@
       {{#gabs}}
       <div class="gab-container">
         <h2>{{userAlias.username}}: </h2>
-        <p>{{text}}</p>
-        <p class="publishedAt">{{publishedAt}}</p>
+        <a href="/gabdetails/{{id}}">
+          <p>{{text}}</p>
+          <p class="publishedAt">{{publishedAt}}</p>
+        </a>
         {{#likes}}
         <p>{{likes}} likes</p>
         {{/likes}}

@@ -85,16 +85,26 @@ app.get('/logout', function(request, response){
 
 app.get('/gabdetails/:id', function(request, response){
   var gabDetailsId = request.params.id;
+  var passedUsername = request.session.user;
   models.Gabs.findOne({ // displays the gab clicked on by ID
     where: {
       id: gabDetailsId
-    }
+    },
+    include: [
+      {
+        model: models.Users,
+        as: 'userAlias'
+      }
+    ]
   }).then(function(matchingGab){
+    console.log(matchingGab.userAlias.username);
     response.render('gabdetails', {
-      user: matchingGab.user,
       text: matchingGab.text,
       publishedAt: matchingGab.publishedAt,
-      likes: matchingGab.likes
+      likes: matchingGab.likes,
+      id: gabDetailsId,
+      username: matchingGab.userAlias.username,
+      sessionUser: passedUsername
     })
   })
 });
@@ -136,7 +146,21 @@ app.post('/login', function(request, response){
   })
 })
 
-// app.post('newgab', function(request, response){ // need to get req.session.user using express-session somehow and then set that equal to 'user' in the Gabs Table
-//   var newGabField = request.body.newGabField;
-//
-// })
+app.post('/newgab', function(request, response){
+  var passedUsername = request.session.user;
+  models.Users.findOne({ // using the session's username, searches the db for the proper user
+    where: {
+      username: passedUsername
+    }
+  }).then(function(gabAuthor){
+    const newGab = models.Gabs.build({ // builds a new row in the Gabs Table with the correct gab author!
+      userId: gabAuthor.id,
+      text: request.body.newGabField,
+      publishedAt: moment(),
+      likes: []
+    })
+    newGab.save().then(function(){
+      response.redirect('/');
+    })
+  })
+})
