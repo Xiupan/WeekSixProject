@@ -15,7 +15,12 @@
         <h3>Create a new gab</h3>
       </a>
       <a href="/login">
-        <h3>Logged in as {{user}}</h3>
+        {{#sessionUser}}
+        <h3>Logged in as {{sessionUser}}</h3>
+        {{/sessionUser}}
+        {{^sessionUser}}
+        <h3>Please log in</h3>
+        {{/sessionUser}}
       </a>
       <a href="/logout">
         <h3>Log out</h3>
@@ -27,7 +32,9 @@
         <h2>{{userAlias.username}}: </h2>
         <p>{{text}}</p>
         <p class="publishedAt">{{publishedAt}}</p>
+        {{#likes}}
         <p>{{likes}} likes</p>
+        {{/likes}}
         <form class="like-button" action="/" method="post">
           <input type="submit" name="likeButton" value="Like">
         </form>

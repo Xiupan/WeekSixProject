@@ -23,6 +23,12 @@ app.set('view engine', 'mustache');
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({extended: false}))
 
+app.use(expressSession({
+  secret: 'gabba dabba do',
+  resave: false,
+  saveUninitialized: true
+}))
+
 app.listen(3000, function(){
   console.log("Gabble is running!")
 })
@@ -38,6 +44,7 @@ app.listen(3000, function(){
 // }
 
 app.get('/', function(request, response){
+  var passedUsername = request.session.user;
   models.Gabs.findAll({
     order: [
       ['publishedAt', 'DESC']
@@ -50,7 +57,8 @@ app.get('/', function(request, response){
     ]
   }).then(function(gabs){ // displays all gabs on the home page. May want to change this to findOne to restrict how many gabs it returns, instead of all.
     response.render('index', {
-      gabs: gabs
+      gabs: gabs,
+      sessionUser: passedUsername
     });
   })
 });
@@ -64,8 +72,16 @@ app.get('/login', function(request, response){
 });
 
 app.get('/newgab', function(request, response){
-  response.render('newgab');
+  var passedUsername = request.session.user;
+  response.render('newgab', {
+    sessionUser: passedUsername
+  });
 });
+
+app.get('/logout', function(request, response){
+  request.session.user = '';
+  response.redirect('/');
+})
 
 app.get('/gabdetails/:id', function(request, response){
   var gabDetailsId = request.params.id;
@@ -101,6 +117,8 @@ app.post('/login', function(request, response){
   var loginUsername = request.body.username;
   var loginPassword = request.body.password;
   var loginError = 'Incorrect username or password.'
+  request.session.user = loginUsername;
+  request.session.password = loginPassword;
   models.Users.findOne({
     where: {
       username: loginUsername,
@@ -112,6 +130,7 @@ app.post('/login', function(request, response){
         error: loginError
       });
     } else if (usersFindOne != null){ // right now it just redirects when a login is successful, but it may need to start a session? Maybe? *shrugs*
+      request.session.user = loginUsername;
       response.redirect('/');
     }
   })
