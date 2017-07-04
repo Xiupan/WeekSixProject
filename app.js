@@ -1,13 +1,14 @@
-//DB is called gabbleDB
-//Table is called Gabs
-//Gabs table has columns: id, user, text, publishedAt, likes, createdAt, updatedAt
+// DB is called gabbleDB
+// Table is called Gabs (posts), this will be the child table with the foreign key
+// Table is called Users, this is the parent table that the foreign key refers to
+// Gabs table has columns: id, userId, text, publishedAt, likes, createdAt, updatedAt
+// Users table has columns: id, username, password, createdAt, updatedAt
+// likes column is an array of strings
 
-// sort gabs on index by publishedAt time
-// create a gab page inserts into the gab database. Must also push session user to user column in gab table.
+// create a gab page inserts into the gab database. Must also push session user to userId column in gab table.
 // limit amount of gabs that load on index. Also have link at the bottom that will load more on click.
-// when like button on index is clicked, take username from session and push it to gab table, like column.
+// when like button on index is clicked, take username from session and push it to Gabs table, likes column.
 // delete button appears for gabs that were created by the session's user
-// need to format publishedAt time properly. Using moment(), do it client side! In a separate js file that runs client-side.
 const express = require("express");
 const app = express();
 const mustache = require("mustache-express");
@@ -26,13 +27,12 @@ app.listen(3000, function(){
   console.log("Gabble is running!")
 })
 
-// generates 13 fake gabs
-// for (var i = 0; i < 13; i++) {
+// generates 4 fake gabs
+// for (var i = 0; i < 4; i++) {
 //   const gab = models.Gabs.build({
-//     user: faker.internet.userName(),
+//     userId: 4,
 //     text: faker.hacker.phrase(),
-//     publishedAt: faker.date.past(),
-//     likes: [faker.internet.userName(), faker.internet.userName(), faker.internet.userName()]
+//     publishedAt: faker.date.past()
 //   })
 //   gab.save()
 // }
@@ -41,6 +41,12 @@ app.get('/', function(request, response){
   models.Gabs.findAll({
     order: [
       ['publishedAt', 'DESC']
+    ],
+    include: [
+      {
+        model: models.Users,
+        as: 'userAlias' // dunno why, but you need this in order to refer to the userId in the mustache file
+      }
     ]
   }).then(function(gabs){ // displays all gabs on the home page. May want to change this to findOne to restrict how many gabs it returns, instead of all.
     response.render('index', {
