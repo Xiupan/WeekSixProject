@@ -5,10 +5,11 @@
 // Users table has columns: id, username, password, createdAt, updatedAt
 // likes column is an array of strings
 
-// create a gab page inserts into the gab database. Must also push session user to userId column in gab table.
 // limit amount of gabs that load on index. Also have link at the bottom that will load more on click.
 // when like button on index is clicked, take username from session and push it to Gabs table, likes column.
 // delete button appears for gabs that were created by the session's user
+// need to validate fields of sign up page, login page, and new gab page.
+
 const express = require("express");
 const app = express();
 const mustache = require("mustache-express");
