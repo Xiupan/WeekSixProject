@@ -40,13 +40,14 @@
         <form class="like-button" action="/" method="post">
           <input type="submit" name="likeButton" value="Like">
         </form>
-        {{#sessionUser}}
-        {{/sessionUser}}
-        {{^sessionUser}}
+        {{#loggedUsername}}
         <form class="delete-button" action="/" method="post">
           <input type="submit" name="deleteButton" value="Delete">
         </form>
-        {{/sessionUser}}
+        {{/loggedUsername}}
+        {{^loggedUsername}}
+        Nothing
+        {{/loggedUsername}}
       </div>
       {{/gabs}}
     </div>

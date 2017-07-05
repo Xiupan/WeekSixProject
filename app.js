@@ -7,7 +7,7 @@
 
 // limit amount of gabs that load on index. Also have link at the bottom that will load more on click.
 // when like button on index is clicked, take username from session and push it to Gabs table, likes column.
-// delete button appears for gabs that were created by the session's user
+// delete button appears for gabs that were created by the session's user.
 // need to validate fields of sign up page, login page, and new gab page.
 
 const express = require("express");
@@ -57,12 +57,20 @@ app.get('/', function(request, response){
       }
     ]
   }).then(function(gabs){ // displays all gabs on the home page. May want to change this to findOne to restrict how many gabs it returns, instead of all.
-    response.render('index', {
-      gabs: gabs,
-      sessionUser: passedUsername
-    });
+      for (let i = 0; i < gabs.length; i++) {
+        if (gabs[i].userAlias.username === passedUsername) {
+          var loggedUsername = passedUsername;
+        } else {
+          var loggedUsername = null;
+        }
+      }
+      response.render('index', {
+        gabs: gabs,
+        sessionUser: passedUsername,
+        loggedUsername: loggedUsername
+      });
+    })
   })
-});
 
 app.get('/signup', function(request, response){
   response.render('signup');
