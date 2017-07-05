@@ -7,7 +7,7 @@
 
 // limit amount of gabs that load on index. Also have link at the bottom that will load more on click.
 // when like button on index is clicked, take username from session and push it to Gabs table, likes column.
-// delete button appears for gabs that were created by the session's user
+// delete button appears for gabs that were created by the session's user. If within a for not working as expected. Perhaps try setting a new column in Gabs Table that is a boolean, to determine if the delete button appears or not?
 // need to validate fields of sign up page, login page, and new gab page.
 
 const express = require("express");
