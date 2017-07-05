@@ -46,6 +46,7 @@ app.listen(3000, function(){
 
 app.get('/', function(request, response){
   var passedUsername = request.session.user;
+  var loggedUsername = undefined;
   models.Gabs.findAll({
     order: [
       ['publishedAt', 'DESC']
@@ -57,14 +58,17 @@ app.get('/', function(request, response){
       }
     ]
   }).then(function(gabs){ // displays all gabs on the home page. May want to change this to findOne to restrict how many gabs it returns, instead of all.
+      // console.log(passedUsername);
       for (let i = 0; i < gabs.length; i++) {
         if (gabs[i].userAlias.username === passedUsername) {
-          var loggedUsername = passedUsername;
+          loggedUsername = passedUsername;
+          console.log('Match found! ' + loggedUsername);
         } else {
-          var loggedUsername = null;
+          loggedUsername = undefined;
+          console.log('Match NOT found. ' + loggedUsername);
         }
       }
-      response.render('index', {
+      return response.render('index', {
         gabs: gabs,
         sessionUser: passedUsername,
         loggedUsername: loggedUsername
