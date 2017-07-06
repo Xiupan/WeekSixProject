@@ -35,18 +35,20 @@
           <p class="publishedAt">{{publishedAt}}</p>
         </a>
         {{#likes}}
-        <p>{{likes}} likes</p>
+        <p>{{likes.length}} likes</p>
         {{/likes}}
-        <form class="like-button" action="/" method="post">
+        <form class="like-button" action="/like/{{id}}" method="post">
           <input type="submit" name="likeButton" value="Like">
         </form>
-        {{#sessionUser}}
+
+        <!-- {{#sessionUser}}
         {{/sessionUser}}
         {{^sessionUser}}
         <form class="delete-button" action="/" method="post">
           <input type="submit" name="deleteButton" value="Delete">
         </form>
-        {{/sessionUser}}
+        {{/sessionUser}} -->
+
       </div>
       {{/gabs}}
     </div>

@@ -39,7 +39,8 @@ app.listen(3000, function(){
 //   const gab = models.Gabs.build({
 //     userId: 4,
 //     text: faker.hacker.phrase(),
-//     publishedAt: faker.date.past()
+//     publishedAt: faker.date.past(),
+//     likes: []
 //   })
 //   gab.save()
 // }
@@ -109,6 +110,33 @@ app.get('/gabdetails/:id', function(request, response){
     })
   })
 });
+
+// Room.update(
+//  {'job_ids': sequelize.fn('array_append', sequelize.col('job_ids'), new_jobId)},
+//  {'where': {'id': roomId}}
+// );
+
+app.post('/like/:id', function(request, response){ // enables the like button
+  var passedUsername = request.session.user;
+  var gabDetailsId = request.params.id;
+  var tempArray = [];
+  models.Gabs.findOne({ // detects which Gab the like button was pressed on
+    where: {
+      id: gabDetailsId
+    }
+  }).then(function(selectedGab){
+    tempArray = selectedGab.likes; // overwrites the temp array with the actual likes array from the table
+    tempArray.push(passedUsername); // pushes the session's username to the temp array
+    models.Gabs.update(
+      {likes: tempArray}, // updates the DB with the temp array, overwriting the old likes array
+      {where: {
+        id: gabDetailsId
+      }}
+    ).then(function(updatedGab){
+      response.redirect('/');
+    })
+  })
+})
 
 app.post('/signup', function(request, response){
   var username = request.body.username;
