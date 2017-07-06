@@ -6,7 +6,6 @@
 // likes column is an array of strings
 
 // limit amount of gabs that load on index. Also have link at the bottom that will load more on click.
-// when like button on index is clicked, take username from session and push it to Gabs table, likes column.
 // delete button appears for gabs that were created by the session's user. If within a for not working as expected. Perhaps try setting a new column in Gabs Table that is a boolean, to determine if the delete button appears or not?
 // need to validate fields of sign up page, login page, and new gab page.
 
@@ -40,7 +39,9 @@ app.listen(3000, function(){
 //     userId: 4,
 //     text: faker.hacker.phrase(),
 //     publishedAt: faker.date.past(),
-//     likes: []
+//     likes: [],
+//     likeButtonBool: false,
+//     deleteButtonBool: false
 //   })
 //   gab.save()
 // }
@@ -58,7 +59,27 @@ app.get('/', function(request, response){
       }
     ]
   }).then(function(gabs){ // displays all gabs on the home page. May want to change this to findOne to restrict how many gabs it returns, instead of all.
-    response.render('index', {
+    console.log(passedUsername);
+    for (let i = 0; i < gabs.length; i++) {
+      if(gabs[i].userAlias.username === passedUsername){
+        models.Gabs.update(
+          {likeButtonBool: true,
+          deleteButtonBool: true},
+          {where:
+            {id: gabs[i].id}
+          }
+        )
+      } else {
+        models.Gabs.update(
+          {likeButtonBool: false,
+          deleteButtonBool: false},
+          {where:
+            {id: gabs[i].id}
+          }
+        )
+      }
+    }
+    return response.render('index', {
       gabs: gabs,
       sessionUser: passedUsername
     });
@@ -110,11 +131,6 @@ app.get('/gabdetails/:id', function(request, response){
     })
   })
 });
-
-// Room.update(
-//  {'job_ids': sequelize.fn('array_append', sequelize.col('job_ids'), new_jobId)},
-//  {'where': {'id': roomId}}
-// );
 
 app.post('/like/:id', function(request, response){ // enables the like button
   var passedUsername = request.session.user;
@@ -186,7 +202,9 @@ app.post('/newgab', function(request, response){
       userId: gabAuthor.id,
       text: request.body.newGabField,
       publishedAt: moment(),
-      likes: []
+      likes: [],
+      likeButtonBool: false,
+      deleteButtonBool: false
     })
     newGab.save().then(function(){
       response.redirect('/');

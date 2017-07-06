@@ -4,7 +4,9 @@ module.exports = function(sequelize, DataTypes) {
     userId: DataTypes.INTEGER,
     text: DataTypes.TEXT,
     publishedAt: DataTypes.DATE,
-    likes: DataTypes.ARRAY(DataTypes.STRING)
+    likes: DataTypes.ARRAY(DataTypes.STRING),
+    likeButtonBool: DataTypes.BOOLEAN,
+    deleteButtonBool: DataTypes.BOOLEAN
   });
 
   Gabs.associate = function(models){

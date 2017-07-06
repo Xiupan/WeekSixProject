@@ -20,6 +20,14 @@ module.exports = {
       likes: {
         type: Sequelize.ARRAY(Sequelize.STRING)
       },
+      likeButtonBool: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN
+      },
+      deleteButtonBool: {
+        allowNull: false,
+        type: Sequelize.BOOLEAN
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE
