@@ -59,27 +59,21 @@ app.get('/', function(request, response){
       }
     ]
   }).then(function(gabs){ // displays all gabs on the home page. May want to change this to findOne to restrict how many gabs it returns, instead of all.
-    console.log(passedUsername);
+    console.log('passedUsername: ' + passedUsername);
     for (let i = 0; i < gabs.length; i++) {
+      console.log(gabs[i].likeButtonBool);
+      gabs[i].likeButtonBool = false;
+      gabs[i].deleteButtonBool = false;
       if(gabs[i].userAlias.username === passedUsername){
-        models.Gabs.update(
-          {likeButtonBool: true,
-          deleteButtonBool: true},
-          {where:
-            {id: gabs[i].id}
-          }
-        )
+        gabs[i].likeButtonBool = true;
+        gabs[i].deleteButtonBool = true;
+      } else if(passedUsername != undefined){
+        gabs[i].likeButtonBool = true;
       } else {
-        models.Gabs.update(
-          {likeButtonBool: false,
-          deleteButtonBool: false},
-          {where:
-            {id: gabs[i].id}
-          }
-        )
+        gabs[i].deleteButtonBool = false;
       }
     }
-    return response.render('index', { // was here last
+    return response.render('index', {
       gabs: gabs,
       sessionUser: passedUsername
     });

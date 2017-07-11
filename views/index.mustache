@@ -38,11 +38,7 @@
         <p>{{likes.length}} likes</p>
         {{/likes}}
 
-        {{likeButtonBool}}
-        {{deleteButtonBool}}
-
         {{#likeButtonBool}}
-        {{likeButtonBool}}
         <form class="like-button" action="/like/{{id}}" method="post">
           <input type="submit" name="likeButton" value="Like">
         </form>
@@ -51,7 +47,6 @@
         {{/likeButtonBool}}
 
         {{#deleteButtonBool}}
-        {{deleteButtonBool}}
         <form class="delete-button" action="/" method="post">
           <input type="submit" name="deleteButton" value="Delete">
         </form>
