@@ -47,7 +47,7 @@
         {{/likeButtonBool}}
 
         {{#deleteButtonBool}}
-        <form class="delete-button" action="/" method="post">
+        <form class="delete-button" action="/delete/{{id}}" method="post">
           <input type="submit" name="deleteButton" value="Delete">
         </form>
         {{/deleteButtonBool}}

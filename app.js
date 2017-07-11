@@ -205,3 +205,15 @@ app.post('/newgab', function(request, response){
     })
   })
 })
+
+app.post('/delete/:id', function(request, response){
+  var gabDetailsId = request.params.id;
+  var passedUsername = request.session.user;
+  models.Gabs.destroy({
+    where: {
+      id: gabDetailsId
+    }
+  }).then(function(){
+    response.redirect('/');
+  })
+})
