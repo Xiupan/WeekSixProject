@@ -79,7 +79,7 @@ app.get('/', function(request, response){
         )
       }
     }
-    return response.render('index', {
+    return response.render('index', { // was here last
       gabs: gabs,
       sessionUser: passedUsername
     });
