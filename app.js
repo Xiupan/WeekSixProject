@@ -35,6 +35,18 @@ app.listen(port, function(){
   console.log("Gabble is running!")
 })
 
+pg.defaults.ssl = true;
+pg.connect(process.env.DATABASE_URL, function(err, client) {
+  if (err) throw err;
+  console.log('Connected to postgres! Getting schemas...');
+
+  client
+    .query('SELECT table_schema,table_name FROM information_schema.tables;')
+    .on('row', function(row) {
+      console.log(JSON.stringify(row));
+    });
+});
+
 // generates 4 fake gabs
 // for (var i = 0; i < 4; i++) {
 //   const gab = models.Gabs.build({
