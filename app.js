@@ -29,7 +29,9 @@ app.use(expressSession({
   saveUninitialized: true
 }))
 
-app.listen(3000, function(){
+const port = process.env.PORT || 3000;
+
+app.listen(port, function(){
   console.log("Gabble is running!")
 })
 
