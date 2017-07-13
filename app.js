@@ -17,6 +17,7 @@ const faker = require("faker");
 const bodyParser = require("body-parser");
 const expressSession = require("express-session");
 const moment = require("moment");
+const pg = require("pg");
 
 app.engine('mustache', mustache());
 app.set('view engine', 'mustache');
